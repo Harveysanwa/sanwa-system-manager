@@ -1,0 +1,2568 @@
+{
+  "schemaVersion": 3,
+  "toolBookVersion": "1.5.0",
+  "updatedAt": "2026-11-22T14:38:55.522Z",
+  "draft": false,
+  "description": "AI 控制中心工具清单（v1.0）。启动路径=迁移前的原路径（junction 建立后依然有效）；paths.target=迁移后的真实目标路径。迁移目标以 Lead 的 junction 映射为准。",
+  "hub": {
+    "name": "Sanwa系统管理器",
+    "version": "1.5.0",
+    "host": "127.0.0.1",
+    "port": 9900,
+    "apiBase": "http://127.0.0.1:9900",
+    "root": "%SANWA_HOME%",
+    "desktopHtml": "%USERPROFILE%\\Desktop\\Sanwa系统管理器.html",
+    "webIndex": "%SANWA_HOME%\\web\\index.html",
+    "logsDir": "%SANWA_HOME%\\logs",
+    "scriptsDir": "%SANWA_HOME%\\scripts",
+    "pidFile": "%SANWA_HOME%\\data\\hub.pid",
+    "startCmd": "%SANWA_HOME%\\start-sanwa.cmd",
+    "autostart": {
+      "shortcutName": "Sanwa系统管理器.lnk",
+      "installer": "%SANWA_HOME%\\install.ps1",
+      "installed": false,
+      "note": "唯一登录启动项：仅启动 Sanwa系统管理器本地服务，不启动任何 AI 工具"
+    }
+  },
+  "categories": [
+    {
+      "id": "text",
+      "name": "文生文"
+    },
+    {
+      "id": "image",
+      "name": "生图"
+    },
+    {
+      "id": "audio",
+      "name": "音频"
+    },
+    {
+      "id": "video",
+      "name": "视频"
+    },
+    {
+      "id": "dev",
+      "name": "开发工具"
+    },
+    {
+      "id": "knowledge",
+      "name": "知识库"
+    },
+    {
+      "id": "system",
+      "name": "系统服务"
+    },
+    {
+      "id": "office",
+      "name": "办公"
+    },
+    {
+      "id": "social",
+      "name": "社交娱乐"
+    },
+    {
+      "id": "game",
+      "name": "游戏"
+    }
+  ],
+  "tools": [
+    {
+      "id": "ollama",
+      "name": "Ollama",
+      "category": "system",
+      "version": "0.40.16",
+      "description": "本地 GGUF 大模型推理服务（:11434），为 Open WebUI / Hermes / Codex 提供 OpenAI 兼容接口",
+      "icon": "brain",
+      "tags": [
+        "本地模型",
+        "LLM",
+        "API",
+        "11434",
+        "qwen",
+        "系统服务"
+      ],
+      "url": "http://127.0.0.1:11434/",
+      "health": {
+        "type": "http",
+        "url": "http://127.0.0.1:11434/api/version",
+        "port": 11434,
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%USERPROFILE%\\AppData\\Local\\Programs\\Ollama\\ollama app.exe",
+        "args": [],
+        "cwd": "%USERPROFILE%\\AppData\\Local\\Programs\\Ollama",
+        "env": {
+          "OLLAMA_MODELS": "%SANWA_MODELS_ROOT%",
+          "OLLAMA_KEEP_ALIVE": "30m",
+          "OLLAMA_NUM_PARALLEL": "1",
+          "OLLAMA_FLASH_ATTENTION": "1",
+          "OLLAMA_KV_CACHE_TYPE": "q8_0",
+          "OLLAMA_CONTEXT_LENGTH": "65536"
+        },
+        "windowStyle": "normal",
+        "waitSeconds": 30,
+        "openAfterReady": true
+      },
+      "paths": {
+        "current": "%USERPROFILE%\\AppData\\Local\\Programs\\Ollama",
+        "target": "%SANWA_AI_ROOT%\\apps\\Ollama",
+        "linkType": "junction",
+        "status": "migrated"
+      },
+      "notes": [
+        "Ollama 无开机自启项，重启后需由控制中心拉起",
+        "模型根 OLLAMA_MODELS=%SANWA_MODELS_ROOT%（与 LM Studio 共用，注意同步修改）"
+      ],
+      "statusText": {
+        "running": "Ollama 服务运行中",
+        "stopped": "Ollama 未启动",
+        "starting": "正在唤醒 Ollama…",
+        "unknown": "状态未知"
+      },
+      "gameMode": "stop",
+      "nameZh": "本地大模型引擎",
+      "i18n": {
+        "en": {
+          "description": "Local LLM runtime powering on-device models (OpenAI-compatible API on port 11434)."
+        },
+        "ja": {
+          "description": "ローカル LLM ランタイム。オンデバイスモデルを実行（11434 番ポートの OpenAI 互換 API）。"
+        }
+      }
+    },
+    {
+      "id": "lmstudio",
+      "name": "LM Studio",
+      "category": "system",
+      "version": "0.4.20+1",
+      "description": "图形化本地模型工作台，OpenAI 兼容服务监听 1234（--run-as-service）",
+      "icon": "layers",
+      "tags": [
+        "本地模型",
+        "GUI",
+        "OpenAI 兼容",
+        "1234",
+        "系统服务"
+      ],
+      "url": "",
+      "health": {
+        "type": "http",
+        "url": "http://127.0.0.1:1234/v1/models",
+        "port": 1234,
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "method": "explorer",
+        "exe": "%LMSTUDIO_HOME%\\LM Studio.exe",
+        "args": [],
+        "cwd": "%LMSTUDIO_HOME%",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 90,
+        "openAfterReady": false
+      },
+      "paths": {
+        "current": "%LMSTUDIO_HOME%",
+        "target": "%SANWA_AI_ROOT%\\apps\\LMStudio",
+        "linkType": "junction",
+        "status": "migrated"
+      },
+      "notes": [
+        "数据目录 .lmstudio → %SANWA_AI_ROOT%\\data\\lmstudio",
+        "与 Ollama 共用 %SANWA_MODELS_ROOT% 模型根（含硬链接，迁移需同步处理）",
+        ".lmstudio 数据已迁 %SANWA_AI_ROOT%\\data\\lmstudio（junction 已验证，原路径有效）",
+        "启动方式：explorer.exe 拉起（直接 Start-Process 会静默退出）"
+      ],
+      "statusText": {
+        "running": "LM Studio 服务运行中",
+        "stopped": "LM Studio 未启动",
+        "starting": "正在启动 LM Studio…",
+        "unknown": "状态未知"
+      },
+      "gameMode": "stop",
+      "nameZh": "本地模型工作台",
+      "i18n": {
+        "en": {
+          "description": "Desktop workbench to download, run and chat with local models (LM Studio server on port 1234)."
+        },
+        "ja": {
+          "description": "ローカルモデルのダウンロード・実行・チャットができるデスクトップ環境（1234 番ポートの LM Studio サーバー）。"
+        }
+      }
+    },
+    {
+      "id": "open-webui",
+      "name": "Open WebUI",
+      "category": "system",
+      "version": "0.9.6",
+      "description": "自托管对话界面（8080），自动对接本地 Ollama，依赖 Ollama 先运行",
+      "icon": "chat",
+      "tags": [
+        "对话界面",
+        "WebUI",
+        "8080",
+        "Ollama",
+        "系统服务"
+      ],
+      "url": "http://127.0.0.1:8080/",
+      "health": {
+        "type": "http",
+        "url": "http://127.0.0.1:8080/",
+        "port": 8080,
+        "timeoutMs": 2000
+      },
+      "launch": {
+        "kind": "script",
+        "script": "%USERPROFILE%\\AppData\\Local\\OpenWebUI\\start-open-webui.ps1",
+        "scriptArgs": [],
+        "windowStyle": "hidden",
+        "waitSeconds": 150,
+        "openAfterReady": true,
+        "dependsOn": [
+          "ollama"
+        ]
+      },
+      "paths": {
+        "current": "%USERPROFILE%\\AppData\\Local\\OpenWebUI",
+        "target": "%SANWA_AI_ROOT%\\apps\\OpenWebUI",
+        "linkType": "junction",
+        "status": "migrated"
+      },
+      "notes": [
+        "8080 与 Breeze TTS 冲突（TTS 在控制中心改走 8137）",
+        "控制中心调用 start-open-webui.ps1 启动服务并负责打开界面",
+        "数据在 OpenWebUI\\data（10.6GB）"
+      ],
+      "statusText": {
+        "running": "Open WebUI 运行中",
+        "stopped": "Open WebUI 未启动",
+        "starting": "正在启动 Open WebUI…",
+        "unknown": "状态未知"
+      },
+      "gameMode": "stop",
+      "nameZh": "开放 AI 网页控制台",
+      "i18n": {
+        "en": {
+          "description": "Self-hosted web UI for chatting with local models (port 8080, depends on Ollama)."
+        },
+        "ja": {
+          "description": "ローカルモデルと会話するためのセルフホスト型 Web UI（8080 番ポート、Ollama に依存）。"
+        }
+      }
+    },
+    {
+      "id": "codex-sandbox-service",
+      "name": "Codex 沙箱服务",
+      "category": "system",
+      "version": "26.1111.2228.0",
+      "description": "Codex MSIX 附带的沙箱 Windows 服务，随 Codex 应用安装/启动，本控制中心不管理",
+      "icon": "server",
+      "tags": [
+        "Codex",
+        "沙箱",
+        "系统服务",
+        "只读"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "codex-windows-sandbox-service.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "none",
+        "note": "随 Codex 桌面应用（MSIX）安装与启动，不单独管理"
+      },
+      "paths": {
+        "current": "%PROGRAMFILES%\\WindowsApps\\OpenAI.Codex_26.1111.2228.0_x64__2p2nqsd0c76g0",
+        "target": null,
+        "linkType": "msix",
+        "status": "keep"
+      },
+      "statusText": {
+        "running": "沙箱服务运行中",
+        "stopped": "沙箱服务未运行",
+        "starting": "启动中…",
+        "unknown": "只读展示"
+      },
+      "gameMode": "keep",
+      "nameZh": "Codex 沙箱服务",
+      "i18n": {
+        "en": {
+          "description": "Codex desktop sandbox helper service (installed and started with the MSIX app)."
+        },
+        "ja": {
+          "description": "Codex デスクトップのサンドボックス補助サービス（MSIX アプリと共にインストール・起動）。"
+        }
+      }
+    },
+    {
+      "id": "models",
+      "name": "模型仓库",
+      "category": "system",
+      "version": "",
+      "description": "本地模型与权重根目录 %SANWA_MODELS_ROOT%（物理 131.75GB，含 3 对硬链接），点击打开文件夹",
+      "icon": "layers",
+      "tags": [
+        "模型库",
+        "I 盘",
+        "硬链接",
+        "文件夹"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "url",
+        "url": "%SANWA_MODELS_ROOT%",
+        "actionLabel": "打开模型目录"
+      },
+      "paths": {
+        "current": "%SANWA_MODELS_ROOT%",
+        "target": null,
+        "linkType": "hardlink",
+        "status": "keep"
+      },
+      "notes": [
+        "物理占用 131.75GB（逻辑 180.27GB，48.52GB 为硬链接共享）",
+        "无引用模型：%SANWA_AI_ROOT%\\models\\modelscope（原 %SANWA_MODELS_ROOT% 17.3GB）",
+        "%SANWA_MODELS_ROOT% 已迁至 %SANWA_AI_ROOT%\\models\\modelscope（无引用备份）"
+      ],
+      "statusText": {
+        "running": "运行中",
+        "stopped": "已关闭",
+        "starting": "正在打开…",
+        "unknown": "点击打开目录"
+      },
+      "gameMode": "keep",
+      "nameZh": "本地模型仓库",
+      "i18n": {
+        "en": {
+          "description": "Local model repository on %SANWA_MODELS_ROOT% (Ollama / LM Studio shared weights)."
+        },
+        "ja": {
+          "description": "%SANWA_MODELS_ROOT% のローカルモデル倉庫（Ollama / LM Studio 共用ウェイト）。"
+        }
+      }
+    },
+    {
+      "id": "hub-self",
+      "name": "Sanwa System Manager",
+      "category": "system",
+      "version": "1.0.0",
+      "description": "Sanwa系统管理器（本地服务 127.0.0.1:9900）：按需启动、五模式、HUD、玄学天气、游戏库",
+      "icon": "server",
+      "tags": [
+        "控制服务",
+        "9900",
+        "系统",
+        "自启"
+      ],
+      "url": "http://127.0.0.1:9900/",
+      "health": {
+        "type": "http",
+        "url": "http://127.0.0.1:9900/api/ping",
+        "port": 9900,
+        "timeoutMs": 1200
+      },
+      "launch": {
+        "kind": "self"
+      },
+      "paths": {
+        "current": "%SANWA_HOME%",
+        "target": null,
+        "linkType": "native",
+        "status": "keep"
+      },
+      "notes": [
+        "用户已批准登录自启，安装脚本 %SANWA_HOME%\\install-autostart.ps1"
+      ],
+      "statusText": {
+        "running": "控制服务在线",
+        "stopped": "控制服务离线",
+        "starting": "控制服务启动中…",
+        "unknown": "控制服务状态未知"
+      },
+      "gameMode": "keep",
+      "nameZh": "Sanwa系统管理器",
+      "i18n": {
+        "en": {
+          "description": "Sanwa system manager local service (127.0.0.1:9900): on-demand launcher, five modes, HUD, fortune and game library."
+        },
+        "ja": {
+          "description": "Sanwa システムマネージャーのローカルサービス（127.0.0.1:9900）。オンデマンド起動・5 モード・HUD・占い・ゲームライブラリ。"
+        }
+      }
+    },
+    {
+      "id": "hermes-cli",
+      "name": "Hermes Agent CLI",
+      "category": "text",
+      "version": "git",
+      "description": "Hermes Agent 命令行版（源码安装），通过 Ollama 本地模型驱动，模型名已按实际 ollama list 修正",
+      "icon": "agent",
+      "tags": [
+        "Hermes",
+        "Agent",
+        "CLI",
+        "Ollama",
+        "终端"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%USERPROFILE%\\AppData\\Local\\hermes\\hermes-agent\\venv\\Scripts\\python.exe",
+        "args": [
+          "cli.py",
+          "--provider",
+          "auto",
+          "--base_url",
+          "http://localhost:11434/v1",
+          "--model",
+          "qwen3.6-27b:latest",
+          "--api_key",
+          "ollama"
+        ],
+        "cwd": "%USERPROFILE%\\AppData\\Local\\hermes\\hermes-agent",
+        "env": {
+          "HERMES_GIT_BASH_PATH": "%PROGRAMFILES%\\Git\\bin\\bash.exe",
+          "PATH_ADD": "%USERPROFILE%\\AppData\\Local\\hermes\\bin"
+        },
+        "windowStyle": "normal",
+        "waitSeconds": 10,
+        "openAfterReady": false,
+        "dependsOn": [
+          "ollama"
+        ]
+      },
+      "paths": {
+        "current": "%USERPROFILE%\\AppData\\Local\\hermes",
+        "target": "%SANWA_AI_ROOT%\\apps\\hermes",
+        "linkType": "junction",
+        "status": "migrated"
+      },
+      "notes": [
+        "桌面快捷方式「启动Hermes.bat」里的模型名已失效，控制中心直接指定 qwen3.6-27b:latest",
+        "CLI 为交互式终端，启动后请在控制台窗口操作",
+        "HermesAgent 数据已迁 %SANWA_AI_ROOT%\\data\\HermesAgent（junction）"
+      ],
+      "statusText": {
+        "running": "Hermes CLI 正在运行",
+        "stopped": "Hermes CLI 未启动",
+        "starting": "正在启动 Hermes CLI…",
+        "unknown": "未检测"
+      },
+      "gameMode": "stop",
+      "nameZh": "赫尔墨斯智能体（命令行）",
+      "i18n": {
+        "en": {
+          "description": "Hermes agent command-line client installed from source; drives local Ollama models."
+        },
+        "ja": {
+          "description": "ソースから導入した Hermes エージェントの CLI。ローカル Ollama モデルを操作。"
+        }
+      }
+    },
+    {
+      "id": "hermes-cn-desktop",
+      "name": "Hermes Agent CN",
+      "category": "text",
+      "version": "0.7.0",
+      "description": "Hermes Agent 中文桌面版（Electron），内置 runtime 0.19.0-cn.7，依赖 LM Studio",
+      "icon": "agent",
+      "tags": [
+        "Hermes",
+        "Agent",
+        "桌面应用",
+        "LM Studio"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "hermes-agent-cn-desktop.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%USERPROFILE%\\AppData\\Local\\Hermes Agent CN Desktop\\hermes-agent-cn-desktop.exe",
+        "args": [],
+        "cwd": "%USERPROFILE%\\AppData\\Local\\Hermes Agent CN Desktop",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 25,
+        "openAfterReady": true,
+        "dependsOn": [
+          "lmstudio"
+        ]
+      },
+      "paths": {
+        "current": "%USERPROFILE%\\AppData\\Local\\Hermes Agent CN Desktop",
+        "target": "%SANWA_AI_ROOT%\\apps\\HermesAgentCN",
+        "linkType": "junction",
+        "status": "migrated"
+      },
+      "notes": [
+        "config.yaml 硬编码 LM Studio 1234 与 WikiData 路径，迁移后需逐项修改"
+      ],
+      "statusText": {
+        "running": "Hermes CN 正在运行",
+        "stopped": "Hermes CN 未启动",
+        "starting": "正在启动 Hermes CN…",
+        "unknown": "状态未知"
+      },
+      "gameMode": "stop",
+      "nameZh": "赫尔墨斯智能体（桌面版）",
+      "i18n": {
+        "en": {
+          "description": "Hermes agent desktop edition (Electron) with built-in runtime 0.19.0-cn.7, relies on LM Studio."
+        },
+        "ja": {
+          "description": "Hermes エージェントのデスクトップ版（Electron）。内蔵ランタイム 0.19.0-cn.7、LM Studio に依存。"
+        }
+      }
+    },
+    {
+      "id": "kimi",
+      "name": "Kimi",
+      "category": "text",
+      "version": "3.2.27",
+      "description": "月之暗面 Kimi 桌面客户端，安装在 N: 外置手机硬盘，掉线时不可用",
+      "icon": "moon",
+      "tags": [
+        "Kimi",
+        "对话",
+        "外置盘",
+        "N 盘"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "Kimi.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%PORTABLE_DRIVE%\\HRSoftstore\\Install\\Kimi\\Kimi.exe",
+        "args": [],
+        "cwd": "%PORTABLE_DRIVE%\\HRSoftstore\\Install\\Kimi",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 25,
+        "openAfterReady": true
+      },
+      "paths": {
+        "current": "%PORTABLE_DRIVE%\\HRSoftstore\\Install\\Kimi",
+        "target": "%SANWA_AI_ROOT%\\apps\\Kimi",
+        "linkType": "external",
+        "status": "external"
+      },
+      "notes": [
+        "依赖 N 盘（exFAT 外置手机硬盘），掉线不可用；建议后续重装到 %SANWA_AI_ROOT%\\apps\\Kimi"
+      ],
+      "statusText": {
+        "running": "Kimi 正在运行",
+        "stopped": "Kimi 未启动",
+        "starting": "正在启动 Kimi…",
+        "unknown": "状态未知"
+      },
+      "gameMode": "stop",
+      "nameZh": "Kimi 智能助手",
+      "i18n": {
+        "en": {
+          "description": "Moonshot Kimi desktop client, installed on the N: portable drive."
+        },
+        "ja": {
+          "description": "Moonshot Kimi のデスクトップクライアント。N: のポータブルドライブに導入。"
+        }
+      }
+    },
+    {
+      "id": "qianwen",
+      "name": "千问",
+      "category": "text",
+      "version": "5.2.5.305",
+      "description": "阿里通义千问桌面客户端，本体在 M: 盘（依赖外置盘），数据将迁至 %SANWA_AI_ROOT%\\data\\qianwen",
+      "icon": "spark",
+      "tags": [
+        "千问",
+        "Qwen",
+        "对话",
+        "外置盘",
+        "M 盘"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "qianwen.exe",
+          "new_qianwen.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%PORTABLE_DRIVE%\\HRSoftstore\\Install\\qianwen\\QianWenApp\\qianwen.exe",
+        "args": [
+          "--launch-from=desktopicon"
+        ],
+        "cwd": "%PORTABLE_DRIVE%\\HRSoftstore\\Install\\qianwen\\QianWenApp",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 25,
+        "openAfterReady": true
+      },
+      "paths": {
+        "current": "%PORTABLE_DRIVE%\\HRSoftstore\\Install\\qianwen\\QianWenApp",
+        "target": "%SANWA_AI_ROOT%\\apps\\Qianwen",
+        "linkType": "reinstall",
+        "status": "exception"
+      },
+      "notes": [
+        "客户端在 M: 盘，建议后续重装到 I:；数据目录 %LOCALAPPDATA%\\Qianwen → %SANWA_AI_ROOT%\\data\\qianwen",
+        "数据目录 %LOCALAPPDATA%\\Qianwen 因 ACL 保护仅复制 2353/2358 文件、未启用迁移，源仍在 C:"
+      ],
+      "statusText": {
+        "running": "千问正在运行",
+        "stopped": "千问未启动",
+        "starting": "正在启动千问…",
+        "unknown": "状态未知"
+      },
+      "gameMode": "stop",
+      "nameZh": "通义千问",
+      "i18n": {
+        "en": {
+          "description": "Alibaba Tongyi Qianwen desktop client (portable install on M:, data on I:)."
+        },
+        "ja": {
+          "description": "Alibaba 通義千問のデスクトップクライアント（M: のポータブル導入、データは I:）。"
+        }
+      }
+    },
+    {
+      "id": "doubao",
+      "name": "豆包",
+      "category": "text",
+      "version": "",
+      "description": "豆包客户端（exe 已丢失，需重装）；当前仅保留数据目录，可直接打开查看",
+      "icon": "chat",
+      "tags": [
+        "豆包",
+        "待重装",
+        "数据目录"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "url",
+        "url": "%USERPROFILE%\\Doubao",
+        "actionLabel": "打开数据目录"
+      },
+      "paths": {
+        "current": "%USERPROFILE%\\Doubao",
+        "target": "%SANWA_AI_ROOT%\\data\\doubao",
+        "linkType": "reinstall",
+        "status": "pending"
+      },
+      "notes": [
+        "注册协议指向 N: 已丢失的 exe，需重装",
+        "重装后再把 %USERPROFILE%\\Doubao 数据 junction/复制到 %SANWA_AI_ROOT%\\data"
+      ],
+      "badge": "待重装",
+      "statusText": {
+        "running": "运行中",
+        "stopped": "未安装",
+        "starting": "启动中…",
+        "unknown": "待重装（exe 已丢失）"
+      },
+      "gameMode": "stop",
+      "nameZh": "豆包",
+      "i18n": {
+        "en": {
+          "description": "ByteDance Doubao desktop client (executable missing, needs reinstall; data folder only)."
+        },
+        "ja": {
+          "description": "ByteDance 豆包のデスクトップクライアント（実行ファイル消失で再インストールが必要。データのみ残存）。"
+        }
+      }
+    },
+    {
+      "id": "workbuddy",
+      "name": "WorkBuddy",
+      "category": "text",
+      "version": "5.3.14（last-launch）",
+      "description": "WorkBuddy 客户端（exe 已丢失，需重装）；当前仅保留数据目录，可直接打开查看",
+      "icon": "agent",
+      "tags": [
+        "WorkBuddy",
+        "待重装",
+        "数据目录"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "url",
+        "url": "%USERPROFILE%\\.workbuddy",
+        "actionLabel": "打开数据目录"
+      },
+      "paths": {
+        "current": "%USERPROFILE%\\.workbuddy",
+        "target": "%SANWA_AI_ROOT%\\data\\workbuddy",
+        "linkType": "reinstall",
+        "status": "exception"
+      },
+      "notes": [
+        "exe 丢失（N: 路径不存在），需重装",
+        "重装后 .workbuddy 数据 junction 到 %SANWA_AI_ROOT%\\data\\workbuddy",
+        "数据已完整复制到 %SANWA_AI_ROOT%\\data\\workbuddy（暂存），但源文件 ACL 禁止删除，源仍在 C:"
+      ],
+      "badge": "待重装",
+      "statusText": {
+        "running": "运行中",
+        "stopped": "未安装",
+        "starting": "启动中…",
+        "unknown": "待重装（exe 已丢失）"
+      },
+      "gameMode": "stop",
+      "nameZh": "工作搭子 WorkBuddy",
+      "i18n": {
+        "en": {
+          "description": "WorkBuddy desktop assistant (executable missing, needs reinstall; data folder only)."
+        },
+        "ja": {
+          "description": "WorkBuddy デスクトップアシスタント（実行ファイル消失で再インストールが必要。データのみ残存）。"
+        }
+      }
+    },
+    {
+      "id": "codex-desktop",
+      "name": "Codex 桌面版",
+      "category": "text",
+      "version": "26.1111.2228.0",
+      "description": "OpenAI Codex Windows 商店版（MSIX），本阶段不迁移，请从开始菜单启动",
+      "icon": "terminal",
+      "tags": [
+        "Codex",
+        "MSIX",
+        "商店应用",
+        "只读"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "ChatGPT.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "appx",
+        "appxMatch": "Codex",
+        "appxAppId": "OpenAI.Codex_2p2nqsd0c76g0!App",
+        "windowStyle": "normal",
+        "waitSeconds": 30,
+        "openAfterReady": false
+      },
+      "paths": {
+        "current": "%PROGRAMFILES%\\WindowsApps\\OpenAI.Codex_26.1111.2228.0_x64__2p2nqsd0c76g0",
+        "target": null,
+        "linkType": "msix",
+        "status": "keep"
+      },
+      "notes": [
+        "MSIX 应用只能卸载重装，本阶段不动",
+        ".codex 数据目录 %USERPROFILE%\\.codex → %SANWA_AI_ROOT%\\data\\codex（后续）",
+        "游戏模式退出恢复：按 MSIX AppID（shell:AppsFolder）拉起"
+      ],
+      "badge": "商店应用",
+      "statusText": {
+        "running": "Codex 桌面版运行中",
+        "stopped": "Codex 桌面版未运行",
+        "starting": "启动中…",
+        "unknown": "请从开始菜单启动"
+      },
+      "gameMode": "stop",
+      "actionLabel": "",
+      "nameZh": "Codex 编程智能体（桌面版）",
+      "i18n": {
+        "en": {
+          "description": "OpenAI Codex Windows desktop app (MSIX store build, not migrated; launch from Start menu)."
+        },
+        "ja": {
+          "description": "OpenAI Codex Windows デスクトップアプリ（MSIX ストア版、移行対象外。スタートメニューから起動）。"
+        }
+      }
+    },
+    {
+      "id": "codex-local-cli",
+      "name": "Codex CLI（本地）",
+      "category": "text",
+      "version": "npm 全局包",
+      "description": "本地版 Codex CLI，通过 Ollama 的 qwen3-coder:30b 模型运行，交互式终端",
+      "icon": "code",
+      "tags": [
+        "Codex",
+        "CLI",
+        "Ollama",
+        "qwen3-coder",
+        "终端"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "script",
+        "script": "%USERPROFILE%\\AppData\\Local\\OpenAI\\Codex\\launch-local-codex.ps1",
+        "scriptArgs": [],
+        "windowStyle": "normal",
+        "waitSeconds": 10,
+        "openAfterReady": false,
+        "dependsOn": [
+          "ollama"
+        ]
+      },
+      "paths": {
+        "current": "%USERPROFILE%\\AppData\\Local\\OpenAI\\Codex",
+        "target": null,
+        "linkType": "native",
+        "status": "keep"
+      },
+      "notes": [
+        "交互式 TUI，启动后请在控制台窗口内操作",
+        "依赖 Ollama 与 nodejs",
+        "启动脚本路径本阶段保持原样（未迁移）"
+      ],
+      "statusText": {
+        "running": "Codex CLI 正在运行",
+        "stopped": "Codex CLI 未启动",
+        "starting": "正在启动 Codex CLI…",
+        "unknown": "未检测"
+      },
+      "gameMode": "stop",
+      "nameZh": "Codex 编程助手（本地）",
+      "i18n": {
+        "en": {
+          "description": "Local Codex CLI running the qwen3-coder:30b model through Ollama."
+        },
+        "ja": {
+          "description": "Ollama 経由で qwen3-coder:30b モデルを実行するローカル Codex CLI。"
+        }
+      }
+    },
+    {
+      "id": "deepseek-harness",
+      "name": "DeepSeek Harness",
+      "category": "text",
+      "version": "0.2.1-rc.5",
+      "description": "DSH 桌面工作台（Electron），Web 界面运行在 127.0.0.1:1156",
+      "icon": "terminal",
+      "tags": [
+        "DSH",
+        "Agent",
+        "开发",
+        "1156"
+      ],
+      "url": "http://127.0.0.1:5878/",
+      "health": {
+        "type": "http",
+        "url": "http://127.0.0.1:5878/",
+        "port": 5878,
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%DSH_EXE%",
+        "args": [],
+        "cwd": "%DSH_HOME%",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 40,
+        "openAfterReady": true
+      },
+      "paths": {
+        "current": "%DSH_HOME%",
+        "target": null,
+        "linkType": "native",
+        "status": "keep"
+      },
+      "notes": [
+        ".dsh 数据 → %SANWA_AI_ROOT%\\data\\dsh（后续）",
+        "HKCU Path 中 dsh CLI 指向 %SANWA_AI_ROOT%\\DKH 旧副本，迁移时需修正",
+        "本阶段不迁移（Lead 确认）；后续重装到 %SANWA_AI_ROOT%\\apps\\DeepSeekHarness"
+      ],
+      "statusText": {
+        "running": "DSH 服务运行中",
+        "stopped": "DSH 未启动",
+        "starting": "正在启动 DSH…",
+        "unknown": "状态未知"
+      },
+      "gameMode": "keep",
+      "nameZh": "深度求索智能工作台",
+      "i18n": {
+        "en": {
+          "description": "DeepSeek Harness desktop workbench (Electron) with web UI on 127.0.0.1:5878."
+        },
+        "ja": {
+          "description": "DeepSeek Harness デスクトップ作業台（Electron）。Web UI は 127.0.0.1:5878。"
+        }
+      }
+    },
+    {
+      "id": "pptmaster",
+      "name": "PPTMaster",
+      "category": "text",
+      "version": "",
+      "description": "PPTMaster 演示文稿工具（启动方式待确认），点击可打开安装目录",
+      "icon": "file",
+      "tags": [
+        "PPT",
+        "办公",
+        "待确认"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "url",
+        "url": "%USERPROFILE%\\AppData\\Local\\PPTMaster",
+        "actionLabel": "打开目录"
+      },
+      "paths": {
+        "current": "%USERPROFILE%\\AppData\\Local\\PPTMaster",
+        "target": "%SANWA_AI_ROOT%\\apps\\PPTMaster",
+        "linkType": "junction",
+        "status": "migrated"
+      },
+      "notes": [
+        "桌面快捷方式目标是目录，启动方式待确认",
+        "依赖 python311"
+      ],
+      "badge": "待确认",
+      "statusText": {
+        "running": "运行中",
+        "stopped": "未启动",
+        "starting": "启动中…",
+        "unknown": "点击打开目录"
+      },
+      "gameMode": "stop",
+      "nameZh": "PPT 大师",
+      "i18n": {
+        "en": {
+          "description": "PPT master presentation tool (launch method pending confirmation)."
+        },
+        "ja": {
+          "description": "PPT マスター（プレゼン作成ツール。起動方法は確認中）。"
+        }
+      }
+    },
+    {
+      "id": "vendor-ai-advisor",
+      "name": "OEM AI Advisor",
+      "category": "text",
+      "version": "",
+      "description": "主板厂商 AI 助手（与 OEM 软件生态绑定，可按需保留或删除）",
+      "icon": "spark",
+      "tags": [
+        "OEM",
+        "AI 助手",
+        "保留"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "OEM AI Advisor.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%VENDOR_AI_ADVISOR_HOME%\\OEM AI Advisor.exe",
+        "args": [],
+        "cwd": "%VENDOR_AI_ADVISOR_HOME%",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 20,
+        "openAfterReady": true
+      },
+      "paths": {
+        "current": "%VENDOR_AI_ADVISOR_HOME%",
+        "target": null,
+        "linkType": "native",
+        "status": "keep"
+      },
+      "notes": [
+        "与主板生态绑定，迁移收益低，建议保留"
+      ],
+      "badge": "保留",
+      "statusText": {
+        "running": "OEM AI Advisor 运行中",
+        "stopped": "OEM AI Advisor 未启动",
+        "starting": "正在启动…",
+        "unknown": "状态未知"
+      },
+      "gameMode": "keep",
+      "nameZh": "主板厂商 AI 顾问",
+      "i18n": {
+        "en": {
+          "description": "OEM AI Advisor tied to the vendor software; kept locally and read-only."
+        },
+        "ja": {
+          "description": "ベンダー製 AI Advisor。ローカルに保持し読み取り専用。"
+        }
+      }
+    },
+    {
+      "id": "comfyui",
+      "name": "ComfyUI",
+      "category": "image",
+      "version": "0.45.0",
+      "description": "节点式生图/图像工作流（MiniMax H3-Image，lowvram），监听 8188",
+      "icon": "image",
+      "tags": [
+        "生图",
+        "ComfyUI",
+        "工作流",
+        "8188",
+        "MiniMax",
+        "torch"
+      ],
+      "url": "http://127.0.0.1:8188/",
+      "health": {
+        "type": "http",
+        "url": "http://127.0.0.1:8188/system_stats",
+        "port": 8188,
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%COMFYUI_HOME%\\.venv\\Scripts\\python.exe",
+        "args": [
+          "-s",
+          "main.py",
+          "--windows-standalone-build",
+          "--lowvram",
+          "--reserve-vram",
+          "0.6",
+          "--port",
+          "8188"
+        ],
+        "cwd": "%COMFYUI_HOME%\\ComfyUI",
+        "windowStyle": "hidden",
+        "waitSeconds": 240,
+        "openAfterReady": true,
+        "note": "隐藏窗口直接启动 venv python，避免弹出控制台窗口（2026-11-19 修复）"
+      },
+      "paths": {
+        "current": "%COMFYUI_HOME%",
+        "target": "%SANWA_AI_ROOT%\\projects\\comfyui-env",
+        "linkType": "junction",
+        "status": "migrated"
+      },
+      "notes": [
+        "首次启动需加载模型，最长等待 240 秒",
+        "模型 26.48GB 在 ComfyUI\\models，可拆到 %SANWA_AI_ROOT%\\Models\\ComfyUI",
+        "入口使用 hidden 方式直接启动 venv python（不弹控制台窗口）"
+      ],
+      "statusText": {
+        "running": "ComfyUI 服务运行中",
+        "stopped": "ComfyUI 未启动",
+        "starting": "正在启动 ComfyUI（加载模型较慢）…",
+        "unknown": "状态未知"
+      },
+      "gameMode": "stop",
+      "nameZh": "节点式生图工作流",
+      "i18n": {
+        "en": {
+          "description": "Node-based image generation workflow (MiniMax H3-Image, lowvram, port 8188)."
+        },
+        "ja": {
+          "description": "ノードベースの画像生成ワークフロー（MiniMax H3-Image、lowvram、8188 番ポート）。"
+        }
+      }
+    },
+    {
+      "id": "breeze-tts-2",
+      "name": "Breeze TTS 2",
+      "category": "audio",
+      "version": "0.1.7",
+      "description": "本地 TTS 语音合成（Vulkan/Q8_0），网页 UI 与 OpenAI 兼容接口；控制中心用 8137 端口避开 8080 冲突",
+      "icon": "audio",
+      "tags": [
+        "TTS",
+        "语音合成",
+        "8137",
+        "Vulkan",
+        "OpenAI 兼容"
+      ],
+      "url": "http://127.0.0.1:8137/",
+      "health": {
+        "type": "http",
+        "url": "http://127.0.0.1:8137/",
+        "port": 8137,
+        "timeoutMs": 2500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%SANWA_HOME%\\breeze-tts-2\\breeze-tts-2-v0.1.7-windows-x64-vulkan\\breeze-server.exe",
+        "args": [
+          "breeze-tts-2-q8_0.gguf",
+          "--webui",
+          "--port",
+          "8137"
+        ],
+        "cwd": "%SANWA_HOME%\\breeze-tts-2",
+        "env": {},
+        "windowStyle": "hidden",
+        "waitSeconds": 90,
+        "openAfterReady": true
+      },
+      "paths": {
+        "current": "%SANWA_HOME%\\breeze-tts-2",
+        "target": "%SANWA_AI_ROOT%\\projects\\breeze-tts-2",
+        "linkType": "junction",
+        "status": "migrated"
+      },
+      "notes": [
+        "原 start-server.bat 用 8080（与 Open WebUI 冲突），控制中心改为 8137",
+        "显存被 LM Studio 大模型占满时会掉速，建议先 Eject 模型"
+      ],
+      "statusText": {
+        "running": "Breeze TTS 运行中（8137）",
+        "stopped": "Breeze TTS 未启动",
+        "starting": "正在启动 Breeze TTS…",
+        "unknown": "状态未知"
+      },
+      "gameMode": "stop",
+      "nameZh": "微风语音合成 2",
+      "i18n": {
+        "en": {
+          "description": "Breeze TTS 2 speech synthesis (Vulkan, web UI on 8137; used by the manager)."
+        },
+        "ja": {
+          "description": "Breeze TTS 2 音声合成（Vulkan、Web UI は 8137。マネージャーが使用）。"
+        }
+      }
+    },
+    {
+      "id": "breeze-studio",
+      "name": "Breeze Studio",
+      "category": "audio",
+      "version": "0.1",
+      "description": "Breeze 配音工作台（9123），依赖 Breeze TTS 与 LM Studio 同时在线",
+      "icon": "audio",
+      "tags": [
+        "配音",
+        "Breeze",
+        "9123",
+        "依赖 TTS",
+        "依赖 LM Studio"
+      ],
+      "url": "http://127.0.0.1:9123/",
+      "health": {
+        "type": "http",
+        "url": "http://127.0.0.1:9123/",
+        "port": 9123,
+        "timeoutMs": 2000
+      },
+      "launch": {
+        "kind": "script",
+        "script": "%SANWA_HOME%\\breeze-studio\\start-studio.bat",
+        "scriptArgs": [],
+        "windowStyle": "normal",
+        "waitSeconds": 90,
+        "openAfterReady": true,
+        "dependsOn": [
+          "breeze-tts-2",
+          "lmstudio"
+        ]
+      },
+      "paths": {
+        "current": "%SANWA_HOME%\\breeze-studio",
+        "target": "%SANWA_AI_ROOT%\\projects\\breeze-studio",
+        "linkType": "junction",
+        "status": "migrated"
+      },
+      "notes": [
+        "依赖 Breeze TTS（8137）与 LM Studio（1234）",
+        "启动脚本用 %PYTHON314_HOME%\\python.exe server.py"
+      ],
+      "statusText": {
+        "running": "Breeze Studio 运行中",
+        "stopped": "Breeze Studio 未启动",
+        "starting": "正在启动 Breeze Studio…",
+        "unknown": "状态未知"
+      },
+      "gameMode": "stop",
+      "nameZh": "微风配音工作台",
+      "i18n": {
+        "en": {
+          "description": "Breeze Studio dubbing workbench (9123; depends on Breeze TTS 2 and LM Studio)."
+        },
+        "ja": {
+          "description": "Breeze Studio 吹き替え作業台（9123。Breeze TTS 2 と LM Studio に依存）。"
+        }
+      }
+    },
+    {
+      "id": "video-lab",
+      "name": "视频工具",
+      "category": "video",
+      "version": "",
+      "description": "本机暂无可用视频生成工具（剪映已卸载，仅剩空数据目录），待安装后由控制中心接管",
+      "icon": "video",
+      "tags": [
+        "视频",
+        "待安装",
+        "剪映"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "none",
+        "note": "本机暂无视频工具；剪映已卸载（残留空目录）"
+      },
+      "paths": {
+        "current": "%USERPROFILE%\\AppData\\Local\\JianyingPro",
+        "target": null,
+        "linkType": "residual",
+        "status": "missing"
+      },
+      "badge": "无可用",
+      "statusText": {
+        "running": "运行中",
+        "stopped": "未安装",
+        "starting": "启动中…",
+        "unknown": "暂无可用工具"
+      },
+      "gameMode": "keep",
+      "nameZh": "视频制作工具",
+      "i18n": {
+        "en": {
+          "description": "Video production tool (none installed; CapCut was uninstalled)."
+        },
+        "ja": {
+          "description": "動画制作ツール（未導入。CapCut はアンインストール済み）。"
+        }
+      }
+    },
+    {
+      "id": "python311",
+      "name": "Python 3.11",
+      "category": "dev",
+      "version": "3.11.9",
+      "description": "Python 3.11 用户版，4 个 venv 的父环境，迁移会破坏 venv，保留不动",
+      "icon": "python",
+      "tags": [
+        "Python",
+        "开发",
+        "venv",
+        "保留"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "url",
+        "url": "%USERPROFILE%\\AppData\\Local\\Programs\\Python\\Python311",
+        "actionLabel": "打开目录"
+      },
+      "paths": {
+        "current": "%USERPROFILE%\\AppData\\Local\\Programs\\Python\\Python311",
+        "target": null,
+        "linkType": "native",
+        "status": "keep"
+      },
+      "notes": [
+        "keep：迁移会废掉 OpenWebUI / ComfyUI / Hermes / PPTMaster 等 4 个 venv"
+      ],
+      "badge": "保留",
+      "statusText": {
+        "running": "运行中",
+        "stopped": "未启动",
+        "starting": "启动中…",
+        "unknown": "只读展示"
+      },
+      "gameMode": "keep",
+      "nameZh": "Python 3.11 运行环境",
+      "i18n": {
+        "en": {
+          "description": "Python 3.11 runtime (directory only, read-only card)."
+        },
+        "ja": {
+          "description": "Python 3.11 ランタイム（ディレクトリのみ、読み取り専用カード）。"
+        }
+      }
+    },
+    {
+      "id": "python314",
+      "name": "Python 3.14",
+      "category": "dev",
+      "version": "3.14.5",
+      "description": "Python 3.14 全用户版，机器 PATH 与 Breeze Studio 硬编码依赖，保留不动",
+      "icon": "python",
+      "tags": [
+        "Python",
+        "开发",
+        "保留"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "url",
+        "url": "%PYTHON314_HOME%",
+        "actionLabel": "打开目录"
+      },
+      "paths": {
+        "current": "%PYTHON314_HOME%",
+        "target": null,
+        "linkType": "native",
+        "status": "keep"
+      },
+      "notes": [
+        "keep：Breeze Studio 启动脚本硬编码该路径"
+      ],
+      "badge": "保留",
+      "statusText": {
+        "running": "运行中",
+        "stopped": "未启动",
+        "starting": "启动中…",
+        "unknown": "只读展示"
+      },
+      "gameMode": "keep",
+      "nameZh": "Python 3.14 运行环境",
+      "i18n": {
+        "en": {
+          "description": "Python 3.14 runtime with CUDA 12.8 support (directory only, read-only card)."
+        },
+        "ja": {
+          "description": "CUDA 12.8 対応の Python 3.14 ランタイム（ディレクトリのみ、読み取り専用カード）。"
+        }
+      }
+    },
+    {
+      "id": "nodejs",
+      "name": "Node.js",
+      "category": "dev",
+      "version": "24.16.0",
+      "description": "Node.js 24 + npm 11（控制中心自身运行环境），只迁 npm 全局包",
+      "icon": "node",
+      "tags": [
+        "Node",
+        "npm",
+        "开发",
+        "保留"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "url",
+        "url": "%PROGRAMFILES%\\nodejs",
+        "actionLabel": "打开目录"
+      },
+      "paths": {
+        "current": "%PROGRAMFILES%\\nodejs",
+        "target": null,
+        "linkType": "native",
+        "status": "keep"
+      },
+      "notes": [
+        "keep：控制中心服务端就运行在 Node 24",
+        "npm 全局包目录 %APPDATA%\\npm 可迁 %SANWA_AI_ROOT%\\cache"
+      ],
+      "badge": "保留",
+      "statusText": {
+        "running": "运行中",
+        "stopped": "未启动",
+        "starting": "启动中…",
+        "unknown": "只读展示"
+      },
+      "gameMode": "keep",
+      "nameZh": "Node.js 运行时",
+      "i18n": {
+        "en": {
+          "description": "Node.js 24 runtime used by the manager service and npm tooling."
+        },
+        "ja": {
+          "description": "マネージャーサービスと npm ツールが使用する Node.js 24 ランタイム。"
+        }
+      }
+    },
+    {
+      "id": "git",
+      "name": "Git for Windows",
+      "category": "dev",
+      "version": "2.56.1",
+      "description": "Git for Windows（Hermes CLI 的 bash 依赖），保留不动",
+      "icon": "git",
+      "tags": [
+        "Git",
+        "开发",
+        "保留"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "url",
+        "url": "%PROGRAMFILES%\\Git",
+        "actionLabel": "打开目录"
+      },
+      "paths": {
+        "current": "%PROGRAMFILES%\\Git",
+        "target": null,
+        "linkType": "native",
+        "status": "keep"
+      },
+      "notes": [
+        "Hermes CLI 依赖 %PROGRAMFILES%\\Git\\bin\\bash.exe"
+      ],
+      "badge": "保留",
+      "statusText": {
+        "running": "运行中",
+        "stopped": "未启动",
+        "starting": "启动中…",
+        "unknown": "只读展示"
+      },
+      "gameMode": "keep",
+      "nameZh": "Git 版本控制",
+      "i18n": {
+        "en": {
+          "description": "Git for Windows (version control, read-only card)."
+        },
+        "ja": {
+          "description": "Git for Windows（バージョン管理、読み取り専用カード）。"
+        }
+      }
+    },
+    {
+      "id": "cuda-toolkit",
+      "name": "CUDA Toolkit",
+      "category": "dev",
+      "version": "13.2",
+      "description": "NVIDIA CUDA Toolkit 13.2（ComfyUI torch cu128 依赖），保留不动",
+      "icon": "cuda",
+      "tags": [
+        "CUDA",
+        "GPU",
+        "开发",
+        "保留"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "url",
+        "url": "%PROGRAMFILES%\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.2",
+        "actionLabel": "打开目录"
+      },
+      "paths": {
+        "current": "%PROGRAMFILES%\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.2",
+        "target": null,
+        "linkType": "native",
+        "status": "keep"
+      },
+      "notes": [
+        "keep：驱动/环境变量强绑定（RTX 5070 12GB）"
+      ],
+      "badge": "保留",
+      "statusText": {
+        "running": "运行中",
+        "stopped": "未启动",
+        "starting": "启动中…",
+        "unknown": "只读展示"
+      },
+      "gameMode": "keep",
+      "nameZh": "NVIDIA CUDA 计算工具包",
+      "i18n": {
+        "en": {
+          "description": "NVIDIA CUDA Toolkit 13.2 for GPU compute."
+        },
+        "ja": {
+          "description": "GPU 計算用 NVIDIA CUDA Toolkit 13.2。"
+        }
+      }
+    },
+    {
+      "id": "visualstudio",
+      "name": "Visual Studio 2026",
+      "category": "dev",
+      "version": "18.12.1",
+      "description": "VS 2026 Community + BuildTools 18.12.1，迁移成本高，保留不动",
+      "icon": "monitor",
+      "tags": [
+        "Visual Studio",
+        "开发",
+        "保留"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "url",
+        "url": "%PROGRAMFILES%\\Microsoft Visual Studio\\18\\Community",
+        "actionLabel": "打开目录"
+      },
+      "paths": {
+        "current": "%PROGRAMFILES%\\Microsoft Visual Studio\\18\\Community",
+        "target": null,
+        "linkType": "native",
+        "status": "keep"
+      },
+      "badge": "保留",
+      "statusText": {
+        "running": "运行中",
+        "stopped": "未启动",
+        "starting": "启动中…",
+        "unknown": "只读展示"
+      },
+      "gameMode": "keep",
+      "nameZh": "Visual Studio 2026 开发环境",
+      "i18n": {
+        "en": {
+          "description": "Visual Studio 2026 development environment (components 18.12.1)."
+        },
+        "ja": {
+          "description": "Visual Studio 2026 開発環境（コンポーネント 18.12.1）。"
+        }
+      }
+    },
+    {
+      "id": "windows-sdk",
+      "name": "Windows SDK",
+      "category": "dev",
+      "version": "10.0.26100.9457",
+      "description": "Windows SDK 10.0.26100（编译工具链），保留不动",
+      "icon": "window",
+      "tags": [
+        "Windows SDK",
+        "开发",
+        "保留"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "url",
+        "url": "%PROGRAMFILES(X86)%\\Windows Kits\\10",
+        "actionLabel": "打开目录"
+      },
+      "paths": {
+        "current": "%PROGRAMFILES(X86)%\\Windows Kits\\10",
+        "target": null,
+        "linkType": "native",
+        "status": "keep"
+      },
+      "badge": "保留",
+      "statusText": {
+        "running": "运行中",
+        "stopped": "未启动",
+        "starting": "启动中…",
+        "unknown": "只读展示"
+      },
+      "gameMode": "keep",
+      "nameZh": "Windows 开发工具包",
+      "i18n": {
+        "en": {
+          "description": "Windows SDK 10.0.26100 development toolchain."
+        },
+        "ja": {
+          "description": "Windows SDK 10.0.26100 開発ツールチェーン。"
+        }
+      }
+    },
+    {
+      "id": "wsl",
+      "name": "WSL",
+      "category": "dev",
+      "version": "2.7.3.0",
+      "description": "WSL 2.7.3（当前无发行版），保留不动",
+      "icon": "wsl",
+      "tags": [
+        "WSL",
+        "Linux",
+        "开发",
+        "保留"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "url",
+        "url": "%PROGRAMFILES%\\WSL",
+        "actionLabel": "打开目录"
+      },
+      "paths": {
+        "current": "%PROGRAMFILES%\\WSL",
+        "target": null,
+        "linkType": "native",
+        "status": "keep"
+      },
+      "notes": [
+        "无发行版，保留；如需可执行 wsl --install"
+      ],
+      "badge": "保留",
+      "statusText": {
+        "running": "运行中",
+        "stopped": "未启动",
+        "starting": "启动中…",
+        "unknown": "只读展示"
+      },
+      "gameMode": "keep",
+      "nameZh": "Windows Linux 子系统",
+      "i18n": {
+        "en": {
+          "description": "Windows Subsystem for Linux 2 (WSL2, no distributions installed yet)."
+        },
+        "ja": {
+          "description": "Windows Subsystem for Linux 2（WSL2、ディストリビューション未導入）。"
+        }
+      }
+    },
+    {
+      "id": "kiwix",
+      "name": "Kiwix 离线维基",
+      "category": "knowledge",
+      "version": "Qt6 desktop",
+      "description": "离线维基阅读器，ZIM 库在 %KIWIX_HOME%\\library（4 个中文维基/文库，约 50GB）",
+      "icon": "book",
+      "tags": [
+        "离线维基",
+        "Kiwix",
+        "ZIM",
+        "知识库",
+        "G 盘"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "kiwix-desktop.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%KIWIX_HOME%\\app\\kiwix-desktop.exe",
+        "args": [],
+        "cwd": "%KIWIX_HOME%\\app",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 20,
+        "openAfterReady": true
+      },
+      "paths": {
+        "current": "%KIWIX_HOME%\\app",
+        "target": "%SANWA_AI_ROOT%\\knowledge\\Kiwix",
+        "linkType": "config",
+        "status": "pending"
+      },
+      "notes": [
+        "ZIM 库 %KIWIX_HOME%\\library 49.61GB，迁移后 G 盘可释放 50GB",
+        "知识库 %SANWA_AI_ROOT%\\WikiData 由 Hermes/Wiki MCP 使用",
+        "本阶段未迁移：%KIWIX_HOME% 原地保留（ZIM 库 49.6GB），后续改配置迁移"
+      ],
+      "statusText": {
+        "running": "Kiwix 正在运行",
+        "stopped": "Kiwix 未启动",
+        "starting": "正在启动 Kiwix…",
+        "unknown": "状态未知"
+      },
+      "gameMode": "keep",
+      "nameZh": "Kiwix 离线维基百科",
+      "i18n": {
+        "en": {
+          "description": "Kiwix offline Wikipedia reader (ZIM library on G:, about 50GB)."
+        },
+        "ja": {
+          "description": "Kiwix オフライン Wikipedia リーダー（G: の ZIM ライブラリ、約 50GB）。"
+        }
+      }
+    },
+    {
+      "id": "wikidata",
+      "name": "本地中文维基数据",
+      "category": "knowledge",
+      "version": "2026-11 dump",
+      "description": "%SANWA_AI_ROOT%\\WikiData 中文维基离线库（SQLite，zhwiki.db 17.6GB），由 Hermes 通过 wiki_mcp.py 自动拉起",
+      "icon": "book",
+      "tags": [
+        "维基",
+        "离线数据",
+        "SQLite",
+        "MCP",
+        "知识库"
+      ],
+      "url": "",
+      "health": {
+        "type": "none"
+      },
+      "launch": {
+        "kind": "url",
+        "url": "%SANWA_AI_ROOT%\\WikiData",
+        "actionLabel": "打开数据目录"
+      },
+      "paths": {
+        "current": "I:\\\\WikiData",
+        "target": "%SANWA_AI_ROOT%\\\\WikiData",
+        "linkType": "junction",
+        "status": "migrated"
+      },
+      "notes": [
+        "stdio MCP 服务，无独立端口，由 Hermes 拉起来",
+        "迁移到 D:\\WikiData 后保留 %SANWA_AI_ROOT%\\WikiData junction（原路径不变）",
+        "可回收冗余 21GB（backup/dump）",
+        "已由 d-migrator 迁至 %SANWA_AI_ROOT%\\\\WikiData，I:\\\\WikiData 保留 junction（原路径有效）"
+      ],
+      "badge": "MCP",
+      "statusText": {
+        "running": "运行中",
+        "stopped": "未启动",
+        "starting": "启动中…",
+        "unknown": "由 Hermes 自动拉起"
+      },
+      "gameMode": "keep",
+      "nameZh": "中文维基百科数据库",
+      "i18n": {
+        "en": {
+          "description": "Chinese Wikipedia database (MCP launched on demand by Hermes)."
+        },
+        "ja": {
+          "description": "中国語 Wikipedia データベース（Hermes が必要時に MCP を起動）。"
+        }
+      }
+    },
+    {
+      "id": "wps",
+      "name": "WPS Office",
+      "nameZh": "WPS 办公套件",
+      "category": "office",
+      "version": "v1.0",
+      "description": "金山 WPS 办公套件（文字 / 表格 / 演示），点击卡片按需启动",
+      "icon": "file",
+      "tags": [
+        "办公",
+        "文档",
+        "表格",
+        "演示",
+        "wps"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "wps.exe",
+          "et.exe",
+          "wpp.exe",
+          "ksolaunch.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%USERPROFILE%\\AppData\\Local\\Kingsoft\\WPS Office\\ksolaunch.exe",
+        "args": [],
+        "cwd": "%USERPROFILE%\\AppData\\Local\\Kingsoft\\WPS Office",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 60,
+        "openAfterReady": false
+      },
+      "gameMode": "keep",
+      "procNames": [
+        "wps.exe",
+        "wpscloudsvr.exe",
+        "wpsupdate.exe",
+        "ksolaunch.exe"
+      ],
+      "notes": [],
+      "procPaths": [
+        "\\Kingsoft\\WPS Office\\"
+      ],
+      "i18n": {
+        "en": {
+          "description": "Kingsoft WPS Office suite (Writer / Spreadsheets / Presentation), launch on demand."
+        },
+        "ja": {
+          "description": "Kingsoft WPS Office スイート（文書・表計算・プレゼン）。オンデマンド起動。"
+        }
+      }
+    },
+    {
+      "id": "libreoffice",
+      "name": "LibreOffice",
+      "nameZh": "LibreOffice 办公套件",
+      "category": "office",
+      "version": "v1.0",
+      "description": "开源办公套件（Writer / Calc / Impress），点击卡片按需启动",
+      "icon": "file",
+      "tags": [
+        "办公",
+        "文档",
+        "表格",
+        "演示",
+        "libreoffice"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "soffice.exe",
+          "soffice.bin"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%PROGRAMFILES%\\LibreOffice\\program\\soffice.exe",
+        "args": [],
+        "cwd": "%PROGRAMFILES%\\LibreOffice\\program",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 90,
+        "openAfterReady": false
+      },
+      "gameMode": "keep",
+      "procNames": [
+        "soffice.exe",
+        "soffice.bin"
+      ],
+      "notes": [
+        "启动后显示 LibreOffice 开始中心"
+      ],
+      "procPaths": [
+        "\\LibreOffice\\"
+      ],
+      "i18n": {
+        "en": {
+          "description": "LibreOffice office suite (Writer / Calc / Impress), launch on demand."
+        },
+        "ja": {
+          "description": "LibreOffice オフィススイート（Writer / Calc / Impress）。オンデマンド起動。"
+        }
+      }
+    },
+    {
+      "id": "weixin",
+      "name": "WeChat",
+      "nameZh": "微信",
+      "category": "social",
+      "version": "v1.0",
+      "description": "腾讯微信桌面版；按需启动，不随开机自启",
+      "icon": "chat",
+      "tags": [
+        "社交",
+        "微信",
+        "聊天",
+        "wechat"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "Weixin.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%PROGRAMFILES%\\Tencent\\Weixin\\Weixin.exe",
+        "args": [],
+        "cwd": "%PROGRAMFILES%\\Tencent\\Weixin",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 60,
+        "openAfterReady": false
+      },
+      "gameMode": "keep",
+      "procNames": [
+        "Weixin.exe",
+        "WeChat.exe"
+      ],
+      "notes": [],
+      "procPaths": [
+        "\\Tencent\\Weixin"
+      ],
+      "i18n": {
+        "en": {
+          "description": "Tencent WeChat desktop client, launch on demand and never auto-start."
+        },
+        "ja": {
+          "description": "Tencent WeChat デスクトップクライアント。オンデマンド起動、自動起動なし。"
+        }
+      }
+    },
+    {
+      "id": "dingtalk",
+      "name": "DingTalk",
+      "nameZh": "钉钉",
+      "category": "social",
+      "version": "v1.0",
+      "description": "阿里钉钉桌面版；按需启动，不随开机自启",
+      "icon": "chat",
+      "tags": [
+        "社交",
+        "钉钉",
+        "办公",
+        "dingtalk"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "DingTalk.exe",
+          "DingtalkLauncher.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%PROGRAMFILES(X86)%\\DingDing\\DingtalkLauncher.exe",
+        "args": [],
+        "cwd": "%PROGRAMFILES(X86)%\\DingDing",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 60,
+        "openAfterReady": false
+      },
+      "gameMode": "keep",
+      "procNames": [
+        "DingTalk.exe",
+        "DingtalkLauncher.exe",
+        "DingtalkElevate.exe",
+        "AssistProcess.exe",
+        "DingTalkUpdater.exe"
+      ],
+      "notes": [],
+      "procPaths": [
+        "\\DingDing\\"
+      ],
+      "i18n": {
+        "en": {
+          "description": "Alibaba DingTalk desktop client, launch on demand and never auto-start."
+        },
+        "ja": {
+          "description": "Alibaba 釘釘（DingTalk）デスクトップクライアント。オンデマンド起動、自動起動なし。"
+        }
+      }
+    },
+    {
+      "id": "douyin-chat",
+      "name": "Douyin Chat",
+      "nameZh": "抖音聊天",
+      "category": "social",
+      "version": "v1.0",
+      "description": "字节跳动抖音聊天桌面版；按需启动，不随开机自启",
+      "icon": "chat",
+      "tags": [
+        "社交",
+        "抖音",
+        "聊天",
+        "douyin"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "douyinim.exe",
+          "douyinim_launcher.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%PROGRAMFILES%\\ByteDance\\抖音聊天\\douyinim_launcher.exe",
+        "args": [],
+        "cwd": "%PROGRAMFILES%\\ByteDance\\抖音聊天",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 60,
+        "openAfterReady": false
+      },
+      "gameMode": "keep",
+      "procNames": [
+        "douyinim.exe",
+        "douyinim_launcher.exe",
+        "抖音聊天_guard.exe"
+      ],
+      "notes": [],
+      "procPaths": [
+        "\\抖音聊天"
+      ],
+      "i18n": {
+        "en": {
+          "description": "ByteDance Douyin Chat desktop client, launch on demand and never auto-start."
+        },
+        "ja": {
+          "description": "ByteDance 抖音チャットのデスクトップクライアント。オンデマンド起動、自動起動なし。"
+        }
+      }
+    },
+    {
+      "id": "soda-music",
+      "name": "Soda Music",
+      "nameZh": "汽水音乐",
+      "category": "social",
+      "version": "v1.0",
+      "description": "字节跳动汽水音乐桌面版；按需启动，不随开机自启",
+      "icon": "audio",
+      "tags": [
+        "娱乐",
+        "音乐",
+        "汽水",
+        "soda"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "SodaMusic.exe",
+          "SodaMusicLauncher.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%USERPROFILE%\\AppData\\Local\\Programs\\Soda Music\\SodaMusicLauncher.exe",
+        "args": [],
+        "cwd": "%USERPROFILE%\\AppData\\Local\\Programs\\Soda Music",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 45,
+        "openAfterReady": false
+      },
+      "gameMode": "keep",
+      "procNames": [
+        "SodaMusic.exe",
+        "SodaMusicLauncher.exe"
+      ],
+      "notes": [],
+      "procPaths": [
+        "\\Soda Music"
+      ],
+      "i18n": {
+        "en": {
+          "description": "ByteDance Soda Music desktop client, launch on demand and never auto-start."
+        },
+        "ja": {
+          "description": "ByteDance 汽水音楽のデスクトップクライアント。オンデマンド起動、自動起動なし。"
+        }
+      }
+    },
+    {
+      "id": "baidu-netdisk",
+      "name": "Baidu Netdisk",
+      "nameZh": "百度网盘",
+      "category": "office",
+      "version": "v1.0",
+      "description": "百度网盘客户端（云盘同步 / 上传下载）",
+      "icon": "layers",
+      "tags": [
+        "办公",
+        "云盘",
+        "网盘",
+        "百度",
+        "netdisk"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "BaiduNetdisk.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%USERPROFILE%\\AppData\\Roaming\\baidu\\BaiduNetdisk\\BaiduNetdisk.exe",
+        "args": [],
+        "cwd": "%USERPROFILE%\\AppData\\Roaming\\baidu\\BaiduNetdisk",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 60,
+        "openAfterReady": false
+      },
+      "gameMode": "keep",
+      "procNames": [
+        "BaiduNetdisk.exe",
+        "BaiduNetdiskUtility.exe",
+        "bdservicehost.exe"
+      ],
+      "notes": [],
+      "procPaths": [
+        "\\baidu\\"
+      ],
+      "i18n": {
+        "en": {
+          "description": "Baidu Netdisk client for cloud upload / download and sync."
+        },
+        "ja": {
+          "description": "Baidu ネットディスクのクライアント（クラウドのアップロード/ダウンロードと同期）。"
+        }
+      }
+    },
+    {
+      "id": "onedrive",
+      "name": "Microsoft OneDrive",
+      "nameZh": "微软 OneDrive 云盘",
+      "category": "system",
+      "version": "v1.0",
+      "description": "微软 OneDrive 云同步客户端（文件云同步）",
+      "icon": "layers",
+      "tags": [
+        "云盘",
+        "同步",
+        "onedrive",
+        "微软"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "OneDrive.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%USERPROFILE%\\AppData\\Local\\Microsoft\\OneDrive\\OneDrive.exe",
+        "args": [],
+        "cwd": "%USERPROFILE%\\AppData\\Local\\Microsoft\\OneDrive",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 60,
+        "openAfterReady": false
+      },
+      "gameMode": "keep",
+      "procNames": [
+        "OneDrive.exe"
+      ],
+      "notes": [],
+      "procPaths": [
+        "\\OneDrive\\"
+      ],
+      "i18n": {
+        "en": {
+          "description": "Microsoft OneDrive cloud sync client."
+        },
+        "ja": {
+          "description": "Microsoft OneDrive のクラウド同期クライアント。"
+        }
+      }
+    },
+    {
+      "id": "steam",
+      "name": "Steam",
+      "nameZh": "Steam 游戏平台",
+      "category": "game",
+      "version": "v1.0",
+      "description": "Steam 游戏平台；游戏 / 极端模式下保留运行",
+      "icon": "gamepad",
+      "tags": [
+        "游戏",
+        "steam",
+        "平台"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "steam.exe",
+          "steamwebhelper.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%PROGRAMFILES(X86)%\\Steam\\steam.exe",
+        "args": [],
+        "cwd": "%PROGRAMFILES(X86)%\\Steam",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 60,
+        "openAfterReady": false
+      },
+      "gameMode": "keep",
+      "procNames": [
+        "steam.exe",
+        "steamwebhelper.exe",
+        "SteamService.exe"
+      ],
+      "notes": [],
+      "procPaths": [
+        "\\Steam\\"
+      ],
+      "protected": true,
+      "i18n": {
+        "en": {
+          "description": "Steam game platform; kept running in game / extreme game modes."
+        },
+        "ja": {
+          "description": "Steam ゲームプラットフォーム。ゲーム/極限ゲームモードでも維持。"
+        }
+      }
+    },
+    {
+      "id": "leigod",
+      "name": "LeiGod Accelerator",
+      "nameZh": "雷神加速器",
+      "category": "game",
+      "version": "v1.0",
+      "description": "雷神游戏加速器；游戏 / 极端模式下保留运行",
+      "icon": "gamepad",
+      "tags": [
+        "游戏",
+        "加速器",
+        "雷神",
+        "leigod"
+      ],
+      "url": "",
+      "health": {
+        "type": "process",
+        "process": [
+          "leigod_launcher.exe",
+          "LeigodAcc.exe",
+          "leigod.exe"
+        ],
+        "timeoutMs": 1500
+      },
+      "launch": {
+        "kind": "exe",
+        "exe": "%PROGRAMFILES(X86)%\\LeiGod_Acc\\leigod_launcher.exe",
+        "args": [],
+        "cwd": "%PROGRAMFILES(X86)%\\LeiGod_Acc",
+        "env": {},
+        "windowStyle": "normal",
+        "waitSeconds": 60,
+        "openAfterReady": false
+      },
+      "gameMode": "keep",
+      "procNames": [
+        "leigod.exe",
+        "leigod_launcher.exe",
+        "LeigodAcc.exe"
+      ],
+      "notes": [],
+      "procPaths": [
+        "\\LeiGod_Acc\\"
+      ],
+      "protected": true,
+      "i18n": {
+        "en": {
+          "description": "LeiGod game accelerator; kept running in game / extreme game modes."
+        },
+        "ja": {
+          "description": "雷神ゲームアクセラレーター。ゲーム/極限ゲームモードでも維持。"
+        }
+      }
+    }
+  ],
+  "gameMode": {
+    "enabled": true,
+    "stateFile": "%SANWA_HOME%\\data\\game-mode-state.json",
+    "scripts": {
+      "enter": "%SANWA_HOME%\\scripts\\game-mode.ps1",
+      "restore": "%SANWA_HOME%\\scripts\\game-mode-restore.ps1"
+    },
+    "portsToWait": [
+      11434,
+      1234,
+      8188,
+      8080,
+      8137,
+      9123
+    ],
+    "protect": {
+      "processNames": [
+        "DeepSeek Harness"
+      ],
+      "ports": [
+        1156,
+        9900
+      ],
+      "note": "DeepSeek Harness 与控制中心自身永远保留；不杀 explorer/powershell/node(%SANWA_HOME%\\server.js)/系统进程"
+    },
+    "description": "进入游戏模式：关闭 AI 服务/应用释放内存与显存；退出时恢复进入前正在运行的服务"
+  },
+  "modes": {
+    "default": "normal",
+    "definitions": {
+      "normal": {
+        "name": "正常模式",
+        "color": "#22d3ee",
+        "icon": "spark",
+        "description": "手动模式：不自动启动/关闭任何工具，全部按需点击",
+        "start": [],
+        "stop": []
+      },
+      "ai": {
+        "name": "AI 模式",
+        "color": "#a78bfa",
+        "icon": "brain",
+        "description": "启动 Ollama / LM Studio / Open WebUI / ComfyUI，关闭办公与娱乐应用",
+        "start": [
+          "ollama",
+          "lmstudio",
+          "open-webui",
+          "comfyui"
+        ],
+        "stop": [
+          "wps",
+          "libreoffice",
+          "douyin-chat",
+          "soda-music"
+        ]
+      },
+      "office": {
+        "name": "办公模式",
+        "color": "#60a5fa",
+        "icon": "file",
+        "description": "启动 WPS / LibreOffice / 微信 / 钉钉 / 百度网盘，关闭生图与娱乐应用",
+        "start": [
+          "wps",
+          "libreoffice",
+          "weixin",
+          "dingtalk",
+          "baidu-netdisk"
+        ],
+        "stop": [
+          "comfyui",
+          "lmstudio",
+          "soda-music",
+          "douyin-chat"
+        ]
+      },
+      "game": {
+        "name": "游戏模式",
+        "color": "#fb923c",
+        "icon": "gamepad",
+        "description": "关闭全部 AI 工具，把内存/显存让给游戏；保留 DSH、Steam、雷神",
+        "start": [],
+        "stop": [
+          "ollama",
+          "lmstudio",
+          "open-webui",
+          "hermes-cli",
+          "hermes-cn-desktop",
+          "kimi",
+          "qianwen",
+          "doubao",
+          "workbuddy",
+          "codex-desktop",
+          "codex-local-cli",
+          "pptmaster",
+          "comfyui",
+          "breeze-tts-2",
+          "breeze-studio"
+        ]
+      },
+      "extreme": {
+        "name": "极端游戏模式",
+        "color": "#f87171",
+        "icon": "gamepad",
+        "description": "关闭全部 AI 工具 + 办公/社交/娱乐/云同步应用，仅保留游戏与系统进程",
+        "start": [],
+        "stop": [
+          "ollama",
+          "lmstudio",
+          "open-webui",
+          "hermes-cli",
+          "hermes-cn-desktop",
+          "kimi",
+          "qianwen",
+          "doubao",
+          "workbuddy",
+          "codex-desktop",
+          "codex-local-cli",
+          "pptmaster",
+          "comfyui",
+          "breeze-tts-2",
+          "breeze-studio",
+          "wps",
+          "libreoffice",
+          "weixin",
+          "dingtalk",
+          "douyin-chat",
+          "soda-music",
+          "baidu-netdisk",
+          "onedrive"
+        ]
+      }
+    },
+    "protected": [
+      "deepseek-harness",
+      "hub-self",
+      "codex-sandbox-service",
+      "steam",
+      "leigod",
+      "models",
+      "python311",
+      "python314",
+      "nodejs",
+      "git",
+      "cuda-toolkit",
+      "visualstudio",
+      "windows-sdk",
+      "wsl",
+      "kiwix",
+      "wikidata",
+      "pptmaster",
+      "vendor-ai-advisor"
+    ],
+    "note": "开机默认 normal，不自动启动任何 AI 工具；模式切换不持久化到自启动"
+  },
+  "startupAudit": [
+    {
+      "group": "保留/正常",
+      "name": "AI 控制中心（登录自启）",
+      "kind": "hub-autostart",
+      "status": "auto",
+      "note": "唯一登录启动项：仅启动控制中心小服务（127.0.0.1:9900），不启动任何 AI 工具；可在页面「按需启动」弹窗中一键关闭"
+    },
+    {
+      "group": "已关闭",
+      "name": "微信 HKCU 开机自启",
+      "kind": "hkcu",
+      "status": "removed",
+      "note": "已移除"
+    },
+    {
+      "group": "已关闭",
+      "name": "OneDrive HKCU 开机自启",
+      "kind": "hkcu",
+      "status": "removed",
+      "note": "已移除"
+    },
+    {
+      "group": "已关闭",
+      "name": "Microsoft Edge HKCU 自启",
+      "kind": "hkcu",
+      "status": "removed",
+      "note": "已移除"
+    },
+    {
+      "group": "已关闭",
+      "name": "Hermes-LMStudio-Preload",
+      "kind": "task",
+      "status": "disabled",
+      "note": "计划任务已禁用"
+    },
+    {
+      "group": "已关闭",
+      "name": "DSH Hermes LMS Watchdog",
+      "kind": "task",
+      "status": "disabled",
+      "note": "计划任务已禁用"
+    },
+    {
+      "group": "已关闭",
+      "name": "QianwenUpdater ×2",
+      "kind": "task",
+      "status": "disabled",
+      "note": "计划任务已禁用"
+    },
+    {
+      "group": "已关闭",
+      "name": "Windows「重启后自动恢复应用」",
+      "kind": "os",
+      "status": "disabled",
+      "note": "系统设置已关闭"
+    },
+    {
+      "group": "已关闭",
+      "name": "OneDrive Startup Task",
+      "kind": "task",
+      "status": "disabled",
+      "note": "计划任务已禁用（XML 备份 autostart-20261122）"
+    },
+    {
+      "group": "已关闭",
+      "name": "OneDrive Standalone Update Task",
+      "kind": "task",
+      "status": "disabled",
+      "note": "计划任务已禁用（XML 备份 autostart-20261122）"
+    },
+    {
+      "group": "已关闭",
+      "name": "OneDrive Reporting Task",
+      "kind": "task",
+      "status": "disabled",
+      "note": "计划任务已禁用（XML 备份 autostart-20261122）"
+    },
+    {
+      "group": "需管理员",
+      "name": "LaunchDouyinIMGuard（抖音聊天守护）",
+      "kind": "task",
+      "status": "admin",
+      "note": "\\DouyinIMUser\\DouyinIMGuard\\，当前 Running，Access denied；需管理员权限才能禁用"
+    },
+    {
+      "group": "需管理员",
+      "name": "主板厂商工具 / Everything",
+      "kind": "task",
+      "status": "admin",
+      "note": "OEM 工具与 Everything 等系统工具，保留"
+    },
+    {
+      "group": "需管理员",
+      "name": "主板厂商工具 / Everything",
+      "kind": "task",
+      "status": "admin",
+      "note": "OEM 工具与 Everything 等系统工具，保留"
+    },
+    {
+      "group": "游戏保留",
+      "name": "Steam",
+      "kind": "app",
+      "status": "retained",
+      "note": "游戏平台，保留；极端模式不关闭"
+    },
+    {
+      "group": "游戏保留",
+      "name": "雷神加速器",
+      "kind": "app",
+      "status": "retained",
+      "note": "游戏加速器，保留；极端模式不关闭"
+    },
+    {
+      "group": "游戏保留",
+      "name": "主板厂商工具 / Everything",
+      "kind": "app",
+      "status": "retained",
+      "note": "OEM 工具与 Everything 等系统工具，保留"
+    }
+  ],
+  "_comment": "示例配置：%VAR% 占位符由 install.ps1 展开；SANWA_PORT 环境变量可改服务端口。请按本机实际路径编辑 exe / cwd / 安装目录，修改后重启服务。不要提交个人路径版 tools.json。 迁移概览为通用示例，具体路径请按本机编辑或忽略。",
+  "_portEnv": "服务端口由环境变量 SANWA_PORT 控制（默认 9900）"
+}

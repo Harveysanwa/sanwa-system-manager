@@ -1,0 +1,32 @@
+# Sanwa System Manager (Sanwa 系统管理器)
+
+> 为 GTA6 到来扫清一切障碍 · Windows AI + 游戏 + 办公 本地管理。
+> Clear every obstacle for GTA 6 — Local AI + Gaming + Office management for Windows.
+> GTA6の到来に備えて、すべての障壁を取り払う — WindowsでAI・ゲーム・仕事をローカル管理。
+
+Sanwa 系统管理器是一个纯 Node.js（无 npm 依赖、无 CDN）的 Windows 本地 Web 控制台，默认监听 127.0.0.1:9900：
+统一查看/启动本机 AI 工具、办公软件与游戏；五模式切换（正常 / AI / 办公 / 游戏 / 极端游戏）；
+游戏库自动扫描与启动编排；系统资源 HUD；7 日天气与趋势；黄历/抽签/八字/姓名；生日门禁与礼花；
+三主题（深色/浅色/动态绚丽）；中 / 英 / 日三语；自定义背景；「以你命名一颗星」星空动画。
+无遥测、无账号、无上传；唯一外联为天气查询。
+
+## 快速开始
+
+- [README（简体中文）](README.md)
+- [README (English)](README.en.md)
+- [README（日本語）](README.ja.md)
+- [快速开始 / Quickstart](docs/QUICKSTART.md)
+- [AI 引导与提示词（DeepSeek / 千问 / 豆包 / Codex / Claude / Hermes / Hermes One）](docs/AI-INTEGRATION.md)
+- [架构](docs/ARCHITECTURE.md)
+- [五模式](docs/MODES.md)
+- [游戏库与启动编排](docs/GAMES.md)
+- [本地 API](docs/API.md)
+- [隐私与安全](docs/PRIVACY.md)
+- [面向 AI 编码助手的指南](AGENTS.md)
+- [贡献指南](docs/CONTRIBUTING.md)
+
+## 说明
+
+- 版权 © 驼学长，MIT License。
+- 仓库已脱敏，不含任何个人数据、截图、真实路径或游戏库存；示例配置使用占位符。
+- 欢迎 Fork 与二次创作，做出更好的版本；保留版权声明与 MIT 许可即可。

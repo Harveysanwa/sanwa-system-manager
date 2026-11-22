@@ -1,0 +1,7 @@
+{
+  "_comment": "复制为 data/games-config.json 后按本机情况填写。数组留空时仅自动探测标准 Steam 安装目录；不会扫描其它盘符。",
+  "steamLibraries": [],
+  "roots": [],
+  "weGameDirs": [],
+  "registryHints": true
+}

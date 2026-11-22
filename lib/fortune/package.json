@@ -1,0 +1,15 @@
+{
+  "name": "fortune-engine",
+  "version": "1.0.0",
+  "private": true,
+  "description": "玄学与天气引擎（黄历/抽签/八字/姓名/天气），纯 Node CommonJS，运行时零依赖安装。仅供娱乐。",
+  "main": "index.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "scripts": {
+    "test": "node selftest.js"
+  },
+  "license": "MIT"
+}

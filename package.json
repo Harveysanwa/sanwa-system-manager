@@ -1,0 +1,17 @@
+{
+  "name": "sanwa-system-manager",
+  "version": "1.5.0",
+  "description": "Sanwa系统管理器 · Windows 本地 AI + 游戏 + 办公控制中心（按需启动 / 五模式 / HUD / 玄学天气 / 游戏库 / 星空动画）",
+  "license": "MIT",
+  "author": "驼学长",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "build:ui": "node scripts/build-ui.js",
+    "check:privacy": "powershell -NoProfile -ExecutionPolicy Bypass -File check-privacy.ps1"
+  },
+  "dependencies": {}
+}
